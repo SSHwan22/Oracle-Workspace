@@ -170,7 +170,7 @@ SELECT * FROM EMPLOYEE;
 -- 급여가 3500만원 미만이고, 600만원 초과인 사원들의 이름, 사번, 급여, 직급코드 조회
     SELECT EMP_NAME, EMP_ID, SALARY, JOB_CODE FROM EMPLOYEE
     WHERE
-     -- SALARY < 35000000 AND SALARY > 6000000;
+     -- SALARY < 35000000 OR SALARY > 6000000;
         SALARY NOT BETWEEN 35000000 AND 6000000;
     -- 오라클의 NOT은 자바의 논리부정연산자와 동일하다.
     
