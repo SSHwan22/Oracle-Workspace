@@ -73,20 +73,34 @@ SELECT JOB_CODE, SUM(SALARY) FROM EMPLOYEE GROUP BY JOB_CODE HAVING SUM(SALARY) 
 
 -- 각 직급별 급여 평균이 300만원 이상인 직급코드, 평균급여, 사원수, 최고급여, 최소급여
 SELECT JOB_CODE AS 직급코드,
-ROUND(AVG(SALARY)) AS "평균급여",
-COUNT(*) AS 사원수,
-MAX(SALARY) AS 최고급여,
-MIN(SALARY) AS 최소급여
-FROM EMPLOYEE GROUP BY JOB_CODE HAVING ROUND(AVG(SALARY)) >= 3000000;
+    ROUND(AVG(SALARY)) AS "평균급여",
+    COUNT(*) AS 사원수,
+    MAX(SALARY) AS 최고급여,
+    MIN(SALARY) AS 최소급여
+FROM EMPLOYEE
+GROUP BY JOB_CODE
+HAVING ROUND(AVG(SALARY)) >= 3000000;
 
 -- 각 부서 별 보너스를 받는 사원이 없는 부서만 조회
-SELECT DEPT_CODE, COUNT(*) 
+SELECT DEPT_CODE
 FROM EMPLOYEE 
-WHERE BONUS IS NULL 
+WHERE BONUS IS NULL
 GROUP BY DEPT_CODE;
 
 -- 각 부서별 평균 급여가 350만원 이하인 부서만 조회
-SELECT DEPT_CODE AS 부서코드, ROUND(AVG(SALARY)) AS 평균급여
+SELECT DEPT_CODE AS 부서코드
 FROM EMPLOYEE
 GROUP BY DEPT_CODE
 HAVING ROUND(AVG(SALARY)) <= 3500000;
+
+--------------------------------------------------------
+/*
+    <SELECT 문 구조 및 실행순서>
+    5. SELECT 조회하고자 하는 칼럼명 나열 / * / 리터럴 / 산술연산식 / 함수 / 별칭부여
+    1. FROM 조회하고자하는 테이블명 / 인라인쿼리 / 가상테이블(DUAL)
+    2. WHERE 조건식 (그룹함수를 사용할 수 없음)
+    3. GROUP BY 그룹 기준에 해당하는 칼럼명 / 함수식
+    4. HAVING 그룹함수 식에 대한 조건식
+    6. ORDER BY [정렬기준에 해당하는 칼럼명 / 별칭 / 컬럼의 순번] [ASC / DESC](생략가능) [NULLS FIRST / NULLS LAST](생략가능)
+*/
+
