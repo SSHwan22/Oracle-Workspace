@@ -92,4 +92,65 @@ WHERE SALARY IN(SELECT MAX(SALARY)
                 FROM EMPLOYEE
                 GROUP BY DEPT_CODE);
                 
+-- 선동일 또는 유재석과 같은 부서인 사원들을 조회하시오.(사원명, 부서코드, 급여)
+SELECT EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE DEPT_CODE IN(SELECT DEPT_CODE FROM EMPLOYEE WHERE EMP_NAME IN ('선동일', '유재식'));
 
+-- 이오리 또는 하동운 사원과 같은 직급인 사원들을 조회하시오(사원명, 직급코드, 부서코드, 급여)
+SELECT EMP_NAME, JOB_CODE, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE JOB_CODE IN(SELECT JOB_CODE FROM EMPLOYEE WHERE EMP_NAME IN ('이오리', '하동운'));
+
+-- 사원 < 대리 < 과장 < 차장 < 부장
+-- 대리직급인데도 불구하고 과장직급의 급여보다 많이 받는 사원들 조회.
+-- 1) 과장 직급의 급여들 조회 -> 다중행 단일열
+SELECT SALARY
+FROM EMPLOYEE E, JOB J
+WHERE E.JOB_CODE = J.JOB_CODE AND JOB_NAME='과장';
+
+-- 2) 위의 급여들 보다 하나라도 더 높은 급여를 받는 직원들 조회.
+SELECT EMP_ID, EMP_NAME, JOB_NAME, SALARY
+FROM EMPLOYEE E, JOB J
+WHERE E.JOB_CODE = J.JOB_CODE AND JOB_NAME = '대리'
+AND SALARY >= ANY(SELECT SALARY
+                  FROM EMPLOYEE E, JOB J
+                  WHERE E.JOB_CODE = J.JOB_CODE AND JOB_NAME='과장');
+                  
+-- 과장직급임에도 불구하고 "모든" 차장직급의 급여보다도 더 많이 받는 사람
+SELECT EMP_ID, EMP_NAME, JOB_NAME, SALARY
+FROM EMPLOYEE
+JOIN JOB USING(JOB_CODE)
+WHERE SALARY >= ALL(SELECT SALARY
+                      FROM EMPLOYEE E
+                      LEFT JOIN JOB J ON E.JOB_CODE = J.JOB_CODE 
+                      WHERE E.JOB_CODE = J.JOB_CODE AND JOB_NAME = '차장')
+    AND JOB_NAME = '과장';
+
+/*
+    3. (단일행) 다중열 서브쿼리
+    서브쿼리 조회 결과가 값은 한 행이지만, 나열된 컬럼의 갯수가 여러개인 경우
+*/
+-- 하이유사원과 같은 부서코드, 같은 직급코드에 해당되는 사원들 조회(사원명, 부서코드, 직급코드, 고용일)
+-- 1) 하이유 사원의 부서코드와 직급코드 먼저 조회 => 단일 행 다중 열(DEPT_CODE, JOB_CODE)
+  SELECT DEPT_CODE, JOB_CODE FROM EMPLOYEE WHERE EMP_NAME = '하이유';
+-- 2) 부서코드가 D5이면서 직급코드가 J5인 사원들 조회.
+  SELECT EMP_NAME, DEPT_CODE, JOB_CODE, HIRE_DATE FROM EMPLOYEE WHERE DEPT_CODE = 'D5' AND JOB_CODE = 'J5';
+-- 3) 위의 내용물들을 하나의 쿼리문으로 합치기
+-- 다중 열 서브쿼리( 비교할 값의 순서를 맞추는게 중요하다)
+-- (비교대상칼럼1, 비교대상칼럼2) = 비교할값1, 비교할 값2) -> 서브쿼리로 제시
+SELECT EMP_NAME, DEPT_CODE, JOB_CODE, HIRE_DATE
+FROM EMPLOYEE
+WHERE (DEPT_CODE, JOB_CODE) = (SELECT DEPT_CODE, JOB_CODE FROM EMPLOYEE WHERE EMP_NAME = '하이유');
+
+-- 박나라 사원과 같은 직급코드, 같은 사수사번을 가진 사원들의 사번, 이름, 직급코드, 사수사번 조회
+-- 다중열 서브쿼리로 작성하기 -> 한번에 안된다싶으면 나눠서 작업해보기
+SELECT * FROM EMPLOYEE;
+SELECT EMP_ID, EMP_NAME, JOB_CODE, MANAGER_ID
+FROM EMPLOYEE
+WHERE (JOB_CODE, MANAGER_ID) = (SELECT JOB_CODE, MANAGER_ID FROM EMPLOYEE WHERE EMP_NAME = '박나라');
+
+/*
+    4. 다중 행 다중 열 서브쿼리
+    서브쿼리 조회결과가 여러 행 여러 컬럼일 경우
+*/
