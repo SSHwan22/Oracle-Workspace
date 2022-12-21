@@ -1,0 +1,32 @@
+/*
+    DCL : DATA CONTROL LANGUAGE
+    데이터를 제어 언어, DB에 대한 보안, 무결성, 복구 등 DBMS를 제어하기위한 언어
+    귀한부여(GRANT, REVOKE)
+    
+    GRANT : 사용자에게 권한|ROLE권한을 부여하는 명령어
+    
+    [표현법]
+    GRANT 권한|ROLE명칭 TO 사용자계정
+    
+*/
+
+CREATE USER SAMPLE2 IDENTIFIED BY SAMPLE2;
+
+-- 1. CONNECT -> CREATE SESSION
+GRANT CONNECT TO SAMPLE2;
+
+-- 2. SAMPLE계정에게 CREATE TABLE권한 부여
+GRANT CREATE TABLE TO SAMPLE2;
+
+-- 3. SAMPLE계정에게 테이블 스페이스할당.
+ALTER USER SAMPLE2 QUOTA 2M ON SYSTEM;
+ALTER USER SAMPLE2 QUOTA 2M ON USERS;
+
+-- 4. SAMPLE계정에게 테이블 스페이스할당.
+GRANT CREATE VIEW TO SAMPLE2;
+
+
+-- 5. SAMPLE 계정에서 KH계정의 테이블 중 EMPLOYEE테이블을 조회할 수 있는 권한 추가.
+GRANT SELECT ON KH.EMPLOYEE TO SAMPLE2;
+
+REVOKE RESOURCE FROM SAMPLE;

@@ -1,0 +1,9 @@
+--2_1. CREATE TABLE 권한 부여받기전.
+CREATE TABLE TEST(
+    TEST_ID NUMBER
+); -- 권한 불충분 에러발생.
+
+-- 2_2. CREATE TABLE 권한부여받은 후
+CREATE TABLE TEST2(
+    TEST_ID NUMBER
+);

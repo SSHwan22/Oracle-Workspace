@@ -164,4 +164,82 @@ DELETE FROM EMP_NEW;
 
 /*
     UPDATE
+    테이블에 기록된 기존의 데이터를 수정하는 구문.
+    
+    [표현법]
+    UPDATE 테이블명
+    SET 칼럼명 = 바꿀값
+       ,칼럼명 = 바꿀값
+       ,칼럼명 = 바꿀값 -- 여러 개의 값을 동시에 변경가능.(, 로 변경할 값들을 나열해야 함/ AND 아님.)
+       ,...
+    WHERE 조건; -- WHERE 생략가능, 다만 생략하게 되면 해당 테이블의 "모든"행의 데이터가 바뀜.
 */
+-- 복사본 테이블을 만든 후 작업하기
+CREATE TABLE DEPE_COPY
+AS SELECT * FROM DEPARTMENT;
+
+SELECT * FROM DEPE_COPY;
+
+-- 카피테이블에 D9부서의 부서명을 전략기회팀으로 수정
+UPDATE DEPE_COPY
+SET DEPT_TITLE = '전략기획팀'; -- 9개 행의 데이터가 모두 바뀜.
+-- 전체 행의 모든 DEPT_TITLE칼럼의 전략기획팀으로 수정됨.
+
+-- 참고 ) 변경사항에 대해서 되돌리는 명령어 : ROLLBACK
+ROLLBACK;
+
+UPDATE DEPE_COPY
+SET DEPT_TITLE = '전략기획팀'
+WHERE DEPT_ID = 'D9';
+
+SELECT * FROM DEPE_COPY;
+COMMIT;
+
+-- 복사본
+-- 테이블 명 : EMP_SALARY / 칼럼 : EMPLOYEE테이블에서 EMP_ID, EMP_NAME, SALARY, BONUS(값도 함께)
+CREATE TABLE EMP_SALARY
+AS SELECT EMP_ID, EMP_NAME, SALARY, BONUS
+FROM EMPLOYEE;
+
+UPDATE EMP_SALARY
+SET SALARY = 10000000
+WHERE EMP_NAME = '노옹철';
+
+SELECT * FROM EMP_SALARY;
+
+UPDATE EMP_SALARY
+SET SALARY = '7000000',
+    BONUS = NULL
+WHERE EMP_NAME = '선동일';
+
+SELECT * FROM EMP_SALARY;
+
+-- 전체 사원의 급여를 기존급여에 25%인상해주기. 기존급여*1.25, 기존급여 + 기존급여*0.25
+UPDATE EMP_SALARY
+SET SALARY = SALARY*1.25;
+SELECT * FROM EMP_SALARY;
+
+/*
+    UPDATE 시에도 서브쿼리 사용 가능.
+    서브쿼리를 수행한 결과값으로 기존의 값으로부터 변경하겠다.
+    
+    - CREATE시에 서브쿼리 사용함 : 서브쿼리를 수행한 결과를 테이블 만들 때 넣어버리겠다.
+    - INSERT시에 서브쿼리 사용함 : 서브쿼리를 수행한 결과를 해당 테이블에 삽입하겠다.
+    
+    [표현법]
+    UPDATE 테이블명
+    SET 컬럼명 = (서브쿼리)
+    WHERE 조건; // 생략가능
+*/
+
+-- EMP_SALARY테이블에 홍길동 사원의 부서코드를 선동일 사원읩 부서코드로 변경.
+-- 홍길동부서코드 D1, 선동일 부서코드 D9
+-- 1) 선동일 사원의 부서코드를 알아내는 쿼리문
+SELECT DEPT_CODE
+FROM EMPLOYEE
+WHERE EMP_NAME = '선동일';
+-- 2) 홍길동씨 부서코드를 D9으로 변경
+UPDATE EMP_SALARY
+SET DEPT_CODE = (SELECT DEPT_CODE
+                 FROM EMPLOYEE
+                 WHERE EMP_NAME = '선동일');
