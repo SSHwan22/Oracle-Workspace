@@ -195,10 +195,11 @@ WHERE DEPT_ID = 'D9';
 SELECT * FROM DEPE_COPY;
 COMMIT;
 
+
 -- 복사본
 -- 테이블 명 : EMP_SALARY / 칼럼 : EMPLOYEE테이블에서 EMP_ID, EMP_NAME, SALARY, BONUS(값도 함께)
 CREATE TABLE EMP_SALARY
-AS SELECT EMP_ID, EMP_NAME, SALARY, BONUS
+AS SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY, BONUS
 FROM EMPLOYEE;
 
 UPDATE EMP_SALARY
@@ -243,3 +244,74 @@ UPDATE EMP_SALARY
 SET DEPT_CODE = (SELECT DEPT_CODE
                  FROM EMPLOYEE
                  WHERE EMP_NAME = '선동일');
+                 
+-- 방명수 사원의 급여와 보너스를 유재식 사원의 급여와 보너스값으로 변경
+UPDATE EMP_SALARY
+SET (SALARY, BONUS) = (SELECT SALARY, BONUS FROM EMP_SALARY WHERE EMP_NAME = '유재식')
+WHERE EMP_NAME = '방명수';
+
+SELECT * FROM EMP_SALARY WHERE EMP_NAME IN ('방명수','유재식');
+
+-- 송중기 직원의 사번을 200으로 바꾸기.
+UPDATE EMPLOYEE
+SET EMP_ID = 200
+WHERE EMP_NAME = '송종기';
+
+UPDATE EMPLOYEE
+SET EMP_ID = 905
+WHERE EMP_NAME = '선동일';
+
+ROLLBACK;
+
+/*
+    4. DELETE
+    테이블에 기록된 데이터를 "행"단위로 삭제하는 구문.
+    
+    [표현법]
+    DELETE FROM 테이블명
+    WHERE 조건; -- WHERE절 생략가능. 생략시에는 테이블의 모든 행 삭제.
+*/
+
+-- EMPLOYEE테이블의 모든 행 삭제.
+DELETE FROM EMPLOYEE;
+
+SELECT * FROM EMPLOYEE;
+-- 테이블이 삭제된건 아니다
+
+ROLLBACK; -- 롤백 시 마지막으로 커밋한 시점으로 돌아감.
+
+-- DELETE문으로 EMPLOYEE 테이블 안의 홍길동, 민경민 정보를 지우기.
+DELETE FROM EMPLOYEE
+WHERE EMP_NAME IN ('홍길동','민경민');
+-- WHERE 절의 조건에 따라 1개 이상의 행 OR 0개행이 변경이 될 수 있다.
+
+COMMIT;
+
+-- DEPARTMENT테이블로부터 DEPT_ID가 D1인 부서 삭제
+DELETE FROM DEPARTMENT
+WHERE DEPT_ID = 'D1';
+-- 만약에 EMPLOYEE테이블의 DEPT_CODE컬럼에서 외래키로 DEPT_ID칼럼을 참조하고 있을 경우 삭제가 되지 않았을것.
+
+ROLLBACK;
+
+/*
+    TRUNCATE : 테이블의 전체 행을 모두 삭제할 때 사용하는 구문
+               DELETE구문보다 수행속도가 매우 빠름
+               별도의 조것을 제시 불가
+               ROLLBACK이 불가.
+    
+    [표현법]
+    TRUNCATE TABLE 테이블명;
+        
+        TRUNCATE TABLE 테이블명;    |   DELETE FROM 테이블명
+      ========================================================
+        별도의 조건제시 불가               특정조건 제시가능
+        수행속도 빠름                     수행속도 느림
+        ROLLBACK 불가                    ROLLBACK 가능.
+*/
+
+SELECT * FROM EMP_SALARY;
+DELETE FROM EMP_SALARY;
+ROLLBACK;
+
+TRUNCATE TABLE EMP_SALARY;

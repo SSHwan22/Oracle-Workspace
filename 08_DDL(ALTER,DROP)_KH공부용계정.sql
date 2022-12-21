@@ -104,3 +104,50 @@ ALTER TABLE DEPE_COPY DROP CONSTRAINT DCOPY_PK;
 -- DEPE_COPY 테이블에 DCOPY_UQ, DCOPY_NN 제약조건 지우기
 ALTER TABLE DEPE_COPY DROP CONSTRAINT DCOPY_UQ
 MODIFY LNAME NULL;
+
+-- 3) 칼럼명, 제약조건명, 테이블 명 변경 (RENAME)
+
+SELECT * FROM DEPE_COPY;
+-- 3_1) 컬럼명 변경 : RENAME COLUMN 기존칼럼명 TO 바꿀컬럼명 
+-- DEPT_COPY테이블에서 DEPT_TITLE칼럼을 DEPT_NAME으로 바꾸기.
+ALTER TABLE DEPE_COPY RENAME COLUMN DEPT_TITLE TO DEPT_NAME;
+
+-- 3_2) 제약조건명 변경 : RENAME CONSTRAINT 기존제약명 TO 바꿀제약명
+ALTER TABLE DEPE_COPY RENAME CONSTRAINT SYS_C0011295 TO DCOPY_DID_NN;
+-- 3_3) 테이블명 변경 : RENAME 기존테이블명 TO 바꿀테이블명 || RENAME 바꿀테이블명
+-- 기존테이블명이 제시되어있기때문에 생략 가능.
+-- DEPE_COPY테이블이름을 DEPT_TEST로 변경
+ALTER TABLE DEPE_COPY RENAME TO DEPT_TEST;
+--또는
+RENAME DEPE_COPY TO DEPT_TEST;
+--------------------------------------------------------------------------------
+/*
+    2. DROP
+    객체를 삭제하는 구문
+    [표현법]
+    DROP 객체[TABLE, USER, VIEW 등등] 삭제하고자하는 객체이름;  
+*/
+-- DEPT_COPY2 테이블 삭제
+DROP TABLE DEPT_COPY2;
+
+-- 부모테이블을 만들고, 부모테이블 삭제해보기.
+ALTER TABLE DEPT_TEST
+ADD PRIMARY KEY(DEPT_ID); --PK제약조건 추가
+
+--EMPLOYEE_COPY3테이블에 외래키 제약조건 추가
+-- 이때 부모테이블은 DEPT_TEST테이블의 DEPT_ID를 참조.
+ALTER TABLE EMPLOYEE_COPY3
+ADD CONSTRAINT ECOPY_FK FOREIGN KEY(DEPT_CODE) REFERENCES DEPT_TEST(DEPT_ID);
+
+-- 부모테이블 삭제
+DROP TABLE DEPT_TEST;
+-- 오류 : 자식테이블에서 참조되고 있어서 삭제할 수 없음.
+
+-- 단, 어딘가에서 참조되고 있는 부모테이블은 삭제되지않음.
+-- 부모테이블 삭제하고싶다면
+-- 방법 1) 자식테이블을 먼저 삭제하고, 그 후에 부모테이블을 삭제
+DROP TABLE EMPLOYEE_COPY3;
+DROP TABLE DEPT_TEST;
+
+-- 방법 2) 부모테이블만 삭제하되 맞물려있는 외래키 제약조건도 함께 삭제해준다.
+DROP TABLE DEPT_TEST CASCADE CONSTRAINT;
