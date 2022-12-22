@@ -449,3 +449,7 @@ FROM EMPLOYEE;
 -- must name this expression with a column alias
 -- 서브쿼리의 select절에 산술연산, 함수식이 기술된 경우 반드시 별칭을 부여해야 한다.
 SELECT * FROM EMPLOYEE_COPY4;
+
+CREATE TABLE chare(
+test VARCHAR2(2 char)
+);
