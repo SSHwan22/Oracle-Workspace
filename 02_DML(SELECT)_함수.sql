@@ -151,7 +151,7 @@ SELECT TRIM(TRAILING 'Z' FROM 'ZZZKHZZZ') FROM DUAL; --(RTRIM)
 /*
     LOWER/UPPER/INITCAP
     
-    - LOWDER(문자열)
+    - LOWER(문자열)
     : 문자열을 소문자로 변경
     - UPPER(문자열)
     : 문자열을 대문자로 변경
