@@ -46,7 +46,7 @@ SELECT INSTR('AABAACAABBAA', 'B',1) FROM DUAL;
 -- 위와 동일
 
 SELECT INSTR('AABAACAABBAA', 'B',-1) FROM DUAL;
--- 뒤에서부터 첫 번째ㅐ에서 위치하는 B의 위치값을 앞에서부터 세서 알려준것.
+-- 뒤에서부터 첫 번째에서 위치하는 B의 위치값을 앞에서부터 세서 알려준것.
 
 SELECT INSTR('AABAACAABBAA', 'B', -1, 2) FROM DUAL;
 
@@ -93,7 +93,7 @@ SELECT SUBSTR('ORACLEDATABASE', -8, 3) FROM DUAL;
     LPAD / RPAD
     
     - LPAD/RPAD(문자열, 최종적으로 반환할 문자의 길이(BYTE), 덧붙이고자하는 문자)
-    : 제시한 무자열에 덧붙이고자하는 문자를 왼쪽 또는 오른쪽에 덧붙여서 최종 N 길이만큼의 문자열을 반환.
+    : 제시한 문자열에 덧붙이고자하는 문자를 왼쪽 또는 오른쪽에 덧붙여서 최종 N 길이만큼의 문자열을 반환.
     
     결과값은 CHARACTER 타입으로 반환
     덧붙이고자 하는 문자 : 생략가능
