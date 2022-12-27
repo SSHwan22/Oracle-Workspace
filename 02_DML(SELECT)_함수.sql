@@ -276,7 +276,7 @@ SELECT ADD_MONTHS(SYSDATE, 5) FROM DUAL;
 -- 전체 사원들의 1년 근속 일(== 입사일 기준 1주년)
 SELECT EMP_NAME, HIRE_DATE, ADD_MONTHS(HIRE_DATE, 12) FROM EMPLOYEE;
 
--- 3. NEXT_DAY(DATE, 요일(문자/숫자)): 특정 날짜에서 가장 가까운 요일을 찾아 그 날씨를 반환
+-- 3. NEXT_DAY(DATE, 요일(문자/숫자)): 특정 날짜에서 가장 가까운 요일을 찾아 그 날짜를 반환
 SELECT NEXT_DAY(SYSDATE, 1) FROM DUAL;
 SELECT NEXT_DAY(SYSDATE, '토') FROM DUAL;
 SELECT NEXT_DAY(SYSDATE, '토요일') FROM DUAL;
@@ -295,7 +295,7 @@ SELECT NEXT_DAY(SYSDATE, 'MONDAY') FROM DUAL;
 -- 한국어로 다시 변경
 ALTER SESSION SET NLS_LANGUAGE = KOREAN;
 
--- 4. LAST_DAY(DATE) :  해정 특정날짜 달의 마지막 날짜를 구해서 반환.
+-- 4. LAST_DAY(DATE) :  해당 특정날짜 달의 마지막 날짜를 구해서 반환.
 SELECT LAST_DAY(SYSDATE) FROM DUAL;
 
 -- 이름, 입사일, 입사한 날의 마지막 날짜 조회
