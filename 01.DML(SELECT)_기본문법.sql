@@ -303,7 +303,7 @@ SELECT EMP_ID ||'번 '|| EMP_NAME ||'의 월급은 '|| SALARY ||'원 입니다.'
     SELECT 컬럼명1, 컬럼명2, 컬럼명3, ...
     FROM 테이블명
     WHERE 조건식(생략가능)
-    ORDER BY [정렬기준으로 세우고자 하는 칼럼명/별칭/컬럼순번] [ASC/DESC](생략가능) [LULLS FIRST/NULLS LAST](생략가능)
+    ORDER BY [정렬기준으로 세우고자 하는 칼럼명/별칭/컬럼순번] [ASC/DESC](생략가능) [NULLS FIRST/NULLS LAST](생략가능)
 */
 -- 월급이 높은 사람들부터 나열하고 싶다.
     SELECT * FROM EMPLOYEE ORDER BY SALARY;

@@ -388,7 +388,8 @@ END;
     - NO_DATA_FOUND : SELECT 한 결과가 한 행도 없는 경우
     - TOO_MANY_ROWS : SELECT  한 결과가 여러 행인 경우
     - ZERO_DIVIDE : 0으로 나눌 때
-    - OTHRES
+    - DUP_VAL_ON_INDEX : UNIQUE 제약조건에 위배되었을때
+    ....
 */
 
 -- 사용자가 입력한 숫자로 나눗셈 연산을 한 결과를 출력하는 프로그램

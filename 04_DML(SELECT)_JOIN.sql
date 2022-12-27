@@ -123,7 +123,7 @@ FROM EMPLOYEE
 NATURAL JOIN JOB;
 -- 운 좋게도 두 개의 테이블에 일치하는 컬러명이 "딱 한개"만 존재(JOB_CODE) -> 자연조건으로 사용시 알아서 JOB_CODE가 매칭됨.
 
--- 조인시 추가적인 조거 제시방법
+-- 조인시 추가적인 조건 제시방법
 -- 직급이 대리인 사원들의 정보를 조회(사번, 사원명, 월급, 직급(직급코드가 아닌 직급명)
 
 --> 오라클 전용구문.
@@ -210,7 +210,8 @@ JOIN DEPARTMENT ON DEPT_ID = DEPT_CODE;
 -- "전체" 사원들의 사원명, 급여, 부서명
 -- ANSI구문
 SELECT EMP_NAME, SALARY, DEPT_TITLE
-FROM EMPLOYEE LEFT /*OUTER*/ JOIN DEPARTMENT ON DEPT_ID = DEPT_CODE;
+FROM EMPLOYEE
+LEFT /*OUTER*/ JOIN DEPARTMENT ON DEPT_ID = DEPT_CODE;
 -- EMPLOYEE테이블을 기준으로 조회했기 때문에 EMPLOYEE에 존재하는 데이터는 뭐가 되었든 다 조회가능하게끔 해줌.
 
 -- ORACLE전용구문
@@ -245,7 +246,7 @@ WHERE DEPT_CODE(+) = DEPT_ID(+);
 
 /*
     3. 카테시안 곱 / 교차조인(CROSS JOIN)
-    모든 테이블의 각 행들이 서로서로 매핑된 데이터가 조회됨(곱찹합)
+    모든 테이블의 각 행들이 서로서로 매핑된 데이터가 조회됨(곱집합)
     두 테이블의 행들이 모두 "곱해진" 행들의 조합 출력됨.
     
     각각 N개, M개의 행을 가진 테이블이 있다면 출력결과가 되는 행의 갯수는 N*M행
@@ -259,7 +260,7 @@ FROM EMPLOYEE, DEPARTMENT -- 23 인원 9개의 부서 -> 207개 행 조회
 ORDER BY EMP_NAME;
 
 SELECT EMP_NAME, DEPT_TITLE
-FROM CROSSYEE
+FROM EMPLOYEE
 CROSS JOIN DEPARTMENT
 ORDER BY EMP_NAME;
 
@@ -287,7 +288,7 @@ FROM EMPLOYEE
 JOIN SAL_GRADE ON SALARY BETWEEN MIN_SAL AND MAX_SAL;
 
 /*
-    5. 자체조인 (SELE JOIN)
+    5. 자체조인 (SELP JOIN)
     같은 테이블끼리 조인하는 경우
     즉, 자기 자신의 테이블과 다시 조인을 맺겠다.
     => 자체 조인의 경우 테이블에 반드시 별칭을 붙여줘야 한다.(별칭을 붙이면 서로 다른 테이블인 것처럼 사용가능)
