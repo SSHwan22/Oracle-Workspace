@@ -7,8 +7,28 @@ BEGIN
     FROM EMPLOYEE
     WHERE EMP_ID = &사번;
     
-    DBMS_OUTPUT.PUT_LINE( E.EMP_NAME ||', '||(E.SALARY+E.SALARY*NVL(E.BONUS, 0))*12);
+    DBMS_OUTPUT.PUT_LINE(E.SALARY||' '|| E.EMP_NAME ||TO_CHAR(((E.SALARY+E.SALARY*NVL(E.BONUS, 0))*12), 'L999,999,999'));
     
+END;
+/
+
+-- 1. (다른방식)
+DECLARE
+    VEMP EMPLOYEE%ROWTYPE;
+    VSALARY NUMBER;
+BEGIN
+    SELECT *
+        INTO VEMP
+    FROM EMPLOYEE
+    WHERE EMP_ID = &사번;
+    
+    IF (VEMP.BONUS IS NULL)
+        THEN VSALARY := VEMP.SALARY *12;
+    ELSE
+        VSALARY := (VEMP.SALARY + VEMP.SALARY*VEMP.BONUS)*12;
+    END IF;
+    
+    DBMS_OUTPUT.PUT_LINE( VEMP.SALARY || ' ' || VEMP.EMP_NAME || TO_CHAR(VSALARY, 'L999,999,999' ));
 END;
 /
 
@@ -23,7 +43,7 @@ BEGIN
             LOOP
             DBMS_OUTPUT.PUT_LINE(I||'X'||J||'='||I*J);
         END LOOP;
-            DBMS_OUTPUT.PUT_LINE('------------------------');
+            DBMS_OUTPUT.PUT_LINE(' ');
         END IF;
     END LOOP;
 END;
@@ -43,7 +63,7 @@ BEGIN
                 DBMS_OUTPUT.PUT_LINE(I||'X'||J||'='||I*J);
                 J := J+1;
             END LOOP;
-                DBMS_OUTPUT.PUT_LINE('-------------------------');
+                DBMS_OUTPUT.PUT_LINE(' ');
         END IF;
         I := I+1;
     END LOOP;
