@@ -1,6 +1,6 @@
 /*
     SUBQUERY(서브쿼리)
-    하나의 주되 SQL(SELECT, CREATE, UPDATE, INSERT) 안에 포함된 또 하나의 SELECT문
+    하나의 주된 SQL(SELECT, CREATE, UPDATE, INSERT) 안에 포함된 또 하나의 SELECT문
     
     메인 SQL문을 위해서 보조 역할을 하는 SELECT문
     -> 주로 조건절 안에서 쓰임.
