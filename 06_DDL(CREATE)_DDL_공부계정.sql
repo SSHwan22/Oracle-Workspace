@@ -272,7 +272,7 @@ VALUES(1,'user01','pass01','민경민','M');
     => FOREIGN KEY 제약조건으로 다른 테이블과 관계를 형성할 수 있다.(JOIN)
     [표현법]
     > 칼럼레벨 방식
-    칼럼명 자료형 CONSTRAINT 제약조건명 REFERENCES 참조할 테이블명 (참조할 컬럼명)
+    칼럼명 자료형 CONSTRAINT 제약조건명 REFERENCES 참조할 테이블명(참조할 컬럼명)
     
     > 테이블레벨방식
     CONSTRAINT 제약조건명 FOREIGN KEY(컬럼명) REFERENCES 참조할 테이블명(참조할 칼럼명)

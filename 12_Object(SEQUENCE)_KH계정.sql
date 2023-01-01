@@ -1,7 +1,7 @@
 /*
     < 시퀀스 SEQUENCE>
     
-    자도응로 번호를 발생시켜주는 역할을 하는 객체(자동번호부여기)
+    자동으로 번호를 발생시켜주는 역할을 하는 객체(자동번호부여기)
     정수값을 자동으로 순차적으로 발생시켜줌
     
     EX) 주차번호, 회원번호, 사원번호, 게시글번호
@@ -11,7 +11,7 @@
     CREATE SEQUENCE 시퀀스명
     [
         START WITH 시작숫자      => 처음 발생시킬 시작값 (DEFAULT 1)
-        INCREMENT BY 증가값      => 한번 시퀀스 증갈할 때 마다 몇 씩 증가할지 결정(DEFAULT 1)
+        INCREMENT BY 증가값      => 한번 시퀀스 증가할 때마다 몇 씩 증가할지 결정(DEFAULT 1)
         MAXVALUE 최대값          => 최대값 지정
         MINVALUE 최소값          => 최소값 지정
         CYCLE/NOCYCLE           => 값의 순환여부.

@@ -8,7 +8,7 @@
     [표현식]
     CREATE [OR REPLACE] PROCEDURE 프로시저명[ (매개변수) ]
     IS
-    BIGIN
+    BEIGIN
         실행부분
     END;
     
